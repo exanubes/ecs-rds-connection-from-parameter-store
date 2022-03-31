@@ -2,7 +2,7 @@ FROM node:14.15.0
 
 COPY . .
 
-RUN npm install && npm run build
+RUN npm install && NODE_ENV=production npm run build
 
 EXPOSE 8081
 
