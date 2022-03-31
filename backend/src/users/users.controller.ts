@@ -6,7 +6,12 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  findAll(): ReturnType<UsersService['findAll']> {
-    return this.usersService.findAll();
+  async findAll(): Promise<any> {
+    try {
+      const users = await this.usersService.findAll();
+      return users;
+    } catch (error) {
+      return JSON.stringify(error, null, 4);
+    }
   }
 }
