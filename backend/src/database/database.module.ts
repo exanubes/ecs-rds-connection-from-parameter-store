@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { ConfigService } from '../config/config.service';
+import { AppConfigService } from '../config/app-config.service';
 import { UsersEntity } from '../users/users.entity';
 
 @Module({
   imports: [
     SequelizeModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory(configService: ConfigService) {
+      inject: [AppConfigService],
+      useFactory(configService: AppConfigService) {
         const databaseConfig = configService.getDatabaseConfig();
+        console.log(databaseConfig);
         return {
           dialect: 'postgres',
           database: databaseConfig.name,

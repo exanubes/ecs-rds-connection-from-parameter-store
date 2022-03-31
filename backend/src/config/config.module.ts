@@ -1,6 +1,7 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
-import { configProvider } from './config.provider';
-import { ConfigService } from './config.service';
+import { AppConfigService } from './app-config.service';
+import { ConfigModule as NestConfigModule } from '@nestjs/config';
+import { getConfig } from './config.provider';
 
 @Global()
 @Module({})
@@ -8,8 +9,14 @@ export class ConfigModule {
   static register(): DynamicModule {
     return {
       module: ConfigModule,
-      providers: [configProvider, ConfigService],
-      exports: [ConfigService],
+      imports: [
+        NestConfigModule.forRoot({
+          envFilePath: '.env',
+          load: [getConfig],
+        }),
+      ],
+      providers: [AppConfigService],
+      exports: [AppConfigService, NestConfigModule],
     };
   }
 }
