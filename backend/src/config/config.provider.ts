@@ -12,7 +12,13 @@ export const getConfig = async () => {
   if (!isProd) {
     return config;
   }
-  const client = new SSMClient({});
+  const client = new SSMClient({
+    region: String(process.env.region),
+    credentials: {
+      accessKeyId: String(process.env.clientId),
+      secretAccessKey: String(process.env.clientSecret),
+    },
+  });
   const command = new GetParametersByPathCommand({
     Path: '/production',
     Recursive: true,
